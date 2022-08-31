@@ -284,9 +284,20 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
                                   player4Path[player.getIndex(pawnNumber)][1])
 
 
-def checkKill(pawnNumber, player, currentPlayer):
-    p = players[currentPlayer]
-
+def checkKill(currentPlayer, location):
+    for i in range(1,5):
+        if i != currentPlayer:
+            n = str(i)
+            player = eval("player" + n)
+            for x in range(4):
+                other = player.getCurrentLocation()[x]
+                print(other)
+                if location == other:
+                    xx = player.getStartingLocation()[0][0]
+                    yy = player.getStartingLocation()[0][1]
+                    player.setCurrentLocation(x,xx,yy)
+                    print(player.getCurrentLocation())
+                    break
 
 player1 = Player()
 player1.setStartingPosition(2, 4)
