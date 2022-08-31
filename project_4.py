@@ -251,24 +251,19 @@ def printBoard(p1, p2, p3, p4, turn):
 
 
 def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
-    if player.getIndex(pawnNumber) + currentRoll > 24:
+    pawnNumber -=1
+    player.setIndex(pawnNumber, player.getIndex(pawnNumber) + currentRoll)
+
+    if int(player.getIndex(pawnNumber)) > 24:
         player.setIndex(pawnNumber, player.getIndex(pawnNumber) - currentRoll)
         print("\033[1;36mYou rolled to high...")
         print("Turn has been skipped\033[0;0m")
         return
 
-    elif player.getIndex(pawnNumber) + currentRoll == 24:
+    elif int(player.getIndex(pawnNumber)) == 24:
         print("\033[1;36mOne of your pawns has escaped!")
         print("Play Again...\033[0;0m")
         score[currentPlayer - 1] += 1
-        return
-
-    while currentRoll > 0:
-        if player.getIndex(pawnNumber) == 15 and player.getKill() == 0:
-            player.setIndex(pawnNumber, 0)
-        else:
-            player.setIndex(pawnNumber, player.getIndex(pawnNumber) + 1)
-        currentRoll -= 1
 
     if currentPlayer == 1:
         player.setCurrentLocation(pawnNumber, player1Path[player.getIndex(pawnNumber)][0],
@@ -283,6 +278,8 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
         player.setCurrentLocation(pawnNumber, player4Path[player.getIndex(pawnNumber)][0],
                                   player4Path[player.getIndex(pawnNumber)][1])
 
+    location = player.getCurrentLocation()[pawnNumber]
+    checkKill(currentPlayer,location)
 
 def checkKill(currentPlayer, location):
     for i in range(1,5):
@@ -291,13 +288,12 @@ def checkKill(currentPlayer, location):
             player = eval("player" + n)
             for x in range(4):
                 other = player.getCurrentLocation()[x]
-                print(other)
                 if location == other:
                     xx = player.getStartingLocation()[0][0]
                     yy = player.getStartingLocation()[0][1]
+                    name = player.getName()
                     player.setCurrentLocation(x,xx,yy)
-                    print(player.getCurrentLocation())
-                    break
+                    return print(f"\nA coin belonging to {name} has been killed!\n")
 
 player1 = Player()
 player1.setStartingPosition(2, 4)
