@@ -279,7 +279,8 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
                                   player4Path[player.getIndex(pawnNumber)][1])
 
     location = player.getCurrentLocation()[pawnNumber]
-    checkKill(currentPlayer,location)
+    if location != [2,4] and location != [4,2] and location != [2,0] and location != [0,2]:
+        checkKill(currentPlayer,location)
 
 def checkKill(currentPlayer, location):
     for i in range(1,5):
