@@ -1,5 +1,6 @@
 import random
 
+# Paths for each player to take
 player1Path = [[2, 4], [3, 4], [4, 4], [4, 3], [4, 2], [4, 1], [4, 0], [3, 0], [2, 0], [1, 0], [0, 0], [0, 1], [0, 2],
                [0, 3], [0, 4], [1, 4], [1, 3], [1, 2], [1, 1], [2, 1], [3, 1], [3, 2], [3, 3], [2, 3], [5, 5]]
 
@@ -14,7 +15,7 @@ player4Path = [[0, 2], [0, 3], [0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [4, 3], [
 
 score = [0, 0, 0, 0]
 
-
+# Player object
 class Player:
     def __init__(self):
         self.startingPosition = [[0, 0], [0, 0], [0, 0], [0, 0]]
@@ -56,7 +57,7 @@ class Player:
         self.currentLocation[p][0] = x
         self.currentLocation[p][1] = y
 
-
+# Get how many pawns are in the location provided
 def getPawns(p, x, y):
     count = 0
     for i in range(4):
@@ -64,7 +65,7 @@ def getPawns(p, x, y):
             count += 1
     return count
 
-
+# Print board prints the location of all pawns not in home bases depending on whose turn it is
 def printBoard(p1, p2, p3, p4, turn):
     print("-----------------")
     for i in range(5):
@@ -249,22 +250,23 @@ def printBoard(p1, p2, p3, p4, turn):
         print("|")
     print("-----------------\n")
 
-
+# Game function handles all the logic with the game
 def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
     pawnNumber -= 1
+    # Check if player has rolled too high
     if player.getIndex(pawnNumber) + currentRoll > 24:
         player.setIndex(pawnNumber, player.getIndex(pawnNumber) - currentRoll)
         print("\033[1;36mYou rolled to high...")
         print("Turn has been skipped\033[0;0m")
         return
-
+    # Check if pawn has reached escape square
     elif player.getIndex(pawnNumber) + currentRoll == 24:
         print("\033[1;36mOne of your pawns has escaped...\033[0;0m")
         print("🎉 Hooray! 🙌")
         player.setIndex(pawnNumber, -1)
         player.setCurrentLocation(pawnNumber, 5, 5)
         return
-
+    # Set location
     while currentRoll > 0:
         if player.getIndex(pawnNumber) == 15 and player.getKill() == 0:
             player.setIndex(pawnNumber, 0)
@@ -290,7 +292,7 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
             return 1
     return 0
 
-
+# Check if a player has killed
 def checkKill(currentPlayer, location, p1):
     for i in range(1, 5):
         if i != currentPlayer:
@@ -338,7 +340,7 @@ player4.setCurrentLocation(1, 0, 2)
 player4.setCurrentLocation(2, 0, 2)
 player4.setCurrentLocation(3, 0, 2)
 
-# main game
+# initiate main game
 
 player1.setName(input("\033[1;34m(1) Input Player 1 Name: "))
 player2.setName(input("\033[1;32m(2) Input Player 2 Name: "))
@@ -369,7 +371,7 @@ while True:
                         f"(3) Move coin at [{player.getCurrentLocation()[2][0]},{player.getCurrentLocation()[2][1]}]\n"
                         f"(4) Move coin at [{player.getCurrentLocation()[3][0]},{player.getCurrentLocation()[3][1]}]\n"
                         "Enter Choice: "))
-    input("\n33[5\nPress enter to roll dice!\033[0;0m\n")
+    input("\n\033[30;46mPress enter to roll dice:\033[0;0m\n")
     diceRoll = random.randint(1, 4)
     # diceRoll = int(input("\nPress enter to roll dice:"))
     print(f"{name} rolled a {diceRoll}!\n")
@@ -380,7 +382,7 @@ while True:
         score[2]) + " \033[1;33m ♜: " + str(score[3]) + "\033[0;0m")
 
     if diceRoll == 4:
-        print("\n\033[1;36m       SUPERSHOT!")
+        print("\n\033[1;36m       SUPER SHOT!")
         print("Usually u don't get lucky when you do, u need to roll")
         print("the dice again, cause who wants to stop the luck? 🤔\033[0;0m")
     elif kill == 1:
