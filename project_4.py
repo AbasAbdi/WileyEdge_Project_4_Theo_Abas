@@ -249,6 +249,7 @@ def printBoard(p1, p2, p3, p4, turn):
         print("|")
     print("-----------------\n")
 
+
 def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
     pawnNumber -= 1
     if player.getIndex(pawnNumber) + currentRoll > 24:
@@ -258,21 +259,18 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
         return
 
     elif player.getIndex(pawnNumber) + currentRoll == 24:
-        print("\033[1;36mOne of your pawns has escaped!")
-        player.setIndex(pawnNumber, 24)
-        score[currentPlayer - 1] += 1
+        print("\033[1;36mOne of your pawns has escaped...\033[0;0m")
+        print("🎉 Hooray! 🙌")
+        player.setIndex(pawnNumber, -1)
+        player.setCurrentLocation(pawnNumber, 5, 5)
         return
 
     while currentRoll > 0:
-        print(currentRoll)
-        print(player.getIndex(pawnNumber))
-        print(pawnNumber)
         if player.getIndex(pawnNumber) == 15 and player.getKill() == 0:
             player.setIndex(pawnNumber, 0)
         else:
             player.setIndex(pawnNumber, player.getIndex(pawnNumber) + 1)
         currentRoll -= 1
-
     if currentPlayer == 1:
         player.setCurrentLocation(pawnNumber, player1Path[player.getIndex(pawnNumber)][0],
                                   player1Path[player.getIndex(pawnNumber)][1])
@@ -292,6 +290,7 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
             return 1
     return 0
 
+
 def checkKill(currentPlayer, location, p1):
     for i in range(1, 5):
         if i != currentPlayer:
@@ -309,6 +308,7 @@ def checkKill(currentPlayer, location, p1):
                     print(f"\033[91m\nA coin belonging to {pname} has been killed!\033[0;0m\n")
                     return True
     return False
+
 
 player1 = Player()
 player1.setStartingPosition(2, 4)
@@ -344,7 +344,6 @@ player1.setName(input("\033[1;34m(1) Input Player 1 Name: "))
 player2.setName(input("\033[1;32m(2) Input Player 2 Name: "))
 player3.setName(input("\033[1;35m(3) Input Player 3 Name: "))
 player4.setName(input("\033[1;33m(4) Input Player 4 Name: \033[0;0m"))
-
 print("\nGame has started!\n")
 printBoard(player1, player2, player3, player4, 5)
 print("=================\n")
