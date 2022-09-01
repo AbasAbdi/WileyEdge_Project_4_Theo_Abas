@@ -251,19 +251,28 @@ def printBoard(p1, p2, p3, p4, turn):
 
 
 def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
-    pawnNumber -=1
-    player.setIndex(pawnNumber, player.getIndex(pawnNumber) + currentRoll)
-
-    if int(player.getIndex(pawnNumber)) > 24:
+    pawnNumber -= 1
+    if player.getIndex(pawnNumber) + currentRoll > 24:
         player.setIndex(pawnNumber, player.getIndex(pawnNumber) - currentRoll)
         print("\033[1;36mYou rolled to high...")
         print("Turn has been skipped\033[0;0m")
         return
 
-    elif int(player.getIndex(pawnNumber)) == 24:
+    elif player.getIndex(pawnNumber) + currentRoll == 24:
         print("\033[1;36mOne of your pawns has escaped!")
-        print("Play Again...\033[0;0m")
+        player.setIndex(pawnNumber, 24)
         score[currentPlayer - 1] += 1
+        return
+
+    while currentRoll > 0:
+        print(currentRoll)
+        print(player.getIndex(pawnNumber))
+        print(pawnNumber)
+        if player.getIndex(pawnNumber) == 15 and player.getKill() == 0:
+            player.setIndex(pawnNumber, 0)
+        else:
+            player.setIndex(pawnNumber, player.getIndex(pawnNumber) + 1)
+        currentRoll -= 1
 
     if currentPlayer == 1:
         player.setCurrentLocation(pawnNumber, player1Path[player.getIndex(pawnNumber)][0],
@@ -279,11 +288,14 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
                                   player4Path[player.getIndex(pawnNumber)][1])
 
     location = player.getCurrentLocation()[pawnNumber]
-    if location != [2,4] and location != [4,2] and location != [2,0] and location != [0,2]:
-        checkKill(currentPlayer,location)
+    if location != [2, 4] and location != [4, 2] and location != [2, 0] and location != [0, 2]:
+        if checkKill(currentPlayer, location, player):
+            return 1
+    return 0
 
-def checkKill(currentPlayer, location):
-    for i in range(1,5):
+
+def checkKill(currentPlayer, location, p1):
+    for i in range(1, 5):
         if i != currentPlayer:
             n = str(i)
             player = eval("player" + n)
@@ -293,8 +305,12 @@ def checkKill(currentPlayer, location):
                     xx = player.getStartingLocation()[0][0]
                     yy = player.getStartingLocation()[0][1]
                     name = player.getName()
-                    player.setCurrentLocation(x,xx,yy)
-                    return print(f"\nA coin belonging to {name} has been killed!\n")
+                    player.setCurrentLocation(x, xx, yy)
+                    p1.setKill(1)
+                    print(f"\033[91m\nA coin belonging to {name} has been killed!\033[0;0m\n")
+                    return True
+    return False
+
 
 player1 = Player()
 player1.setStartingPosition(2, 4)
@@ -356,20 +372,24 @@ while True:
                         f"(3) Move coin at [{player.getCurrentLocation()[2][0]},{player.getCurrentLocation()[2][1]}]\n"
                         f"(4) Move coin at [{player.getCurrentLocation()[3][0]},{player.getCurrentLocation()[3][1]}]\n"
                         "Enter Choice: "))
-    # input("\nPress enter to roll dice!\n")
+    # input("\n33[5\nPress enter to roll dice!\033[0;0m\n")
     diceRoll = random.randint(1, 4)
     diceRoll = int(input("\nPress enter to roll dice:"))
     print(f"{name} rolled a {diceRoll}!\n")
-    gameFunction(diceRoll, pawnNum, player, currentPlayer)
+    kill = gameFunction(diceRoll, pawnNum, player, currentPlayer)
     printBoard(player1, player2, player3, player4, currentPlayer)
     print("     - Current score - ")
     print("\033[1;34m ♜: " + str(score[0]) + " \033[1;32m ♜: " + str(score[1]) + " \033[1;35m ♜: " + str(
         score[2]) + " \033[1;33m ♜: " + str(score[3]) + "\033[0;0m")
 
     if diceRoll == 4:
-        print("\n\033[1;36mSUPERSHOT!")
+        print("\n\033[1;36m       SUPERSHOT!")
         print("Usually u don't get lucky when you do, u need to roll")
         print("the dice again, cause who wants to stop the luck? 🤔\033[0;0m")
+    elif kill == 1:
+        print("\n\033[1;36m       THE RAGE IS ON!")
+        print("You get an extra turn cause every small")
+        print("victory needs to be celebrated 👑\033[0;0m")
     else:
         print("\n ====== End of turn ====== ")
         currentPlayer += 1
