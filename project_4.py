@@ -255,7 +255,6 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
     pawnNumber -= 1
     # Check if player has rolled too high
     if player.getIndex(pawnNumber) + currentRoll > 24:
-        player.setIndex(pawnNumber, player.getIndex(pawnNumber) - currentRoll)
         print("\033[1;36mYou rolled to high...")
         print("Turn has been skipped\033[0;0m")
         return
@@ -294,6 +293,7 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
 
 # Check if a player has killed
 def checkKill(currentPlayer, location, p1):
+    b = False
     for i in range(1, 5):
         if i != currentPlayer:
             n = str(i)
@@ -308,8 +308,8 @@ def checkKill(currentPlayer, location, p1):
                     player.setIndex(x, 0)
                     p1.setKill(1)
                     print(f"\033[91m\nA coin belonging to {pname} has been killed!\033[0;0m\n")
-                    return True
-    return False
+                    b = True
+    return b
 
 
 player1 = Player()
@@ -371,9 +371,9 @@ while True:
                         f"(3) Move coin at [{player.getCurrentLocation()[2][0]},{player.getCurrentLocation()[2][1]}]\n"
                         f"(4) Move coin at [{player.getCurrentLocation()[3][0]},{player.getCurrentLocation()[3][1]}]\n"
                         "Enter Choice: "))
-    input("\n\033[30;46mPress enter to roll dice:\033[0;0m\n")
+    #input("\n\033[30;46mPress enter to roll dice:\033[0;0m\n")
     diceRoll = random.randint(1, 4)
-    # diceRoll = int(input("\nPress enter to roll dice:"))
+    diceRoll = int(input("\nPress enter to roll dice:"))
     print(f"{name} rolled a {diceRoll}!\n")
     kill = gameFunction(diceRoll, pawnNum, player, currentPlayer)
     printBoard(player1, player2, player3, player4, currentPlayer)
