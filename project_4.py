@@ -369,9 +369,9 @@ while True:
                         f"(3) Move coin at [{player.getCurrentLocation()[2][0]},{player.getCurrentLocation()[2][1]}]\n"
                         f"(4) Move coin at [{player.getCurrentLocation()[3][0]},{player.getCurrentLocation()[3][1]}]\n"
                         "Enter Choice: "))
-    # input("\n33[5\nPress enter to roll dice!\033[0;0m\n")
+    input("\n33[5\nPress enter to roll dice!\033[0;0m\n")
     diceRoll = random.randint(1, 4)
-    diceRoll = int(input("\nPress enter to roll dice:"))
+    # diceRoll = int(input("\nPress enter to roll dice:"))
     print(f"{name} rolled a {diceRoll}!\n")
     kill = gameFunction(diceRoll, pawnNum, player, currentPlayer)
     printBoard(player1, player2, player3, player4, currentPlayer)
