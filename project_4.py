@@ -249,7 +249,6 @@ def printBoard(p1, p2, p3, p4, turn):
         print("|")
     print("-----------------\n")
 
-
 def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
     pawnNumber -= 1
     if player.getIndex(pawnNumber) + currentRoll > 24:
@@ -293,7 +292,6 @@ def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
             return 1
     return 0
 
-
 def checkKill(currentPlayer, location, p1):
     for i in range(1, 5):
         if i != currentPlayer:
@@ -304,13 +302,13 @@ def checkKill(currentPlayer, location, p1):
                 if location == other:
                     xx = player.getStartingLocation()[0][0]
                     yy = player.getStartingLocation()[0][1]
-                    name = player.getName()
+                    pname = player.getName()
                     player.setCurrentLocation(x, xx, yy)
+                    player.setIndex(x, 0)
                     p1.setKill(1)
-                    print(f"\033[91m\nA coin belonging to {name} has been killed!\033[0;0m\n")
+                    print(f"\033[91m\nA coin belonging to {pname} has been killed!\033[0;0m\n")
                     return True
     return False
-
 
 player1 = Player()
 player1.setStartingPosition(2, 4)
