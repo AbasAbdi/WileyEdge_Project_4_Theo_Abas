@@ -67,7 +67,7 @@ def getPawns(p, x, y):
 
 # Print board prints the location of all pawns not in home bases depending on whose turn it is
 def printBoard(p1, p2, p3, p4, turn):
-    print("-----------------")
+    print("̲̲̲̲̲̲̲̲̲̲̲̲̲̲̲̲̲")
     for i in range(5):
         print("|", end="")
         for j in range(5):
@@ -113,7 +113,7 @@ def printBoard(p1, p2, p3, p4, turn):
                     j == p4.getStartingLocation()[0][0] and i == p4.getStartingLocation()[0][1]):
                 pawnPresent = 1
                 pawnCount = getPawns(p1, j, i)
-                print("\033[0;34m" + str(pawnCount) + "♜ \033[0;0m", end="")
+                print("\033[0;40;34m" + str(pawnCount) + "♜ \033[0;0m", end="")
 
             # For Green Pawns
             if p2.getStartingLocation()[0][0] == j and p2.getStartingLocation()[0][1] == i:
@@ -155,7 +155,7 @@ def printBoard(p1, p2, p3, p4, turn):
                     j == p4.getStartingLocation()[0][0] and i == p4.getStartingLocation()[0][1]):
                 pawnPresent = 1
                 pawnCount = getPawns(p2, j, i)
-                print("\033[0;32m" + str(pawnCount) + "♜ \033[0;0m", end="")
+                print("\033[0;40;32m" + str(pawnCount) + "♜ \033[0;0m", end="")
 
             # For Pink Pawns
             if p3.getStartingLocation()[0][0] == j and p3.getStartingLocation()[0][1] == i:
@@ -197,7 +197,7 @@ def printBoard(p1, p2, p3, p4, turn):
                     j == p4.getStartingLocation()[0][0] and i == p4.getStartingLocation()[0][1]):
                 pawnPresent = 1
                 pawnCount = getPawns(p3, j, i)
-                print("\033[0;35m" + str(pawnCount) + "♜ \033[0;0m", end="")
+                print("\033[0;40;35m" + str(pawnCount) + "♜ \033[0;0m", end="")
 
             # For Yellow Pawns
             if p4.getStartingLocation()[0][0] == j and p4.getStartingLocation()[0][1] == i:
@@ -239,17 +239,16 @@ def printBoard(p1, p2, p3, p4, turn):
                     j == p4.getStartingLocation()[0][0] and i == p4.getStartingLocation()[0][1]):
                 pawnPresent = 1
                 pawnCount = getPawns(p4, j, i)
-                print("\033[0;33m" + str(pawnCount) + "♜ \033[0;0m", end="")
+                print("\033[0;40;33m" + str(pawnCount) + "♜ \033[0;0m", end="")
 
             if j == 2 and i == 2:
                 pawnPresent = 1
                 print("\033[1;41m   \033[0;0m", end="")
             if pawnPresent == 0:
-                print(" - ", end="")
+                print("\033[0;40m - \033[0;0m", end="")
 
         print("|")
-    print("-----------------\n")
-
+    print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n")
 # Game function handles all the logic with the game
 def gameFunction(currentRoll, pawnNumber, player, currentPlayer):
     pawnNumber -= 1
